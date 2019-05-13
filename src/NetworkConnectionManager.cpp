@@ -7,15 +7,16 @@ NetworkConnectionManager::NetworkConnectionManager(
     : m_mqttBrokerUrl(mqttBrokerUrl),
       m_commandSubscribeTopic(commandSubscribeTopic),
       m_eventSubscribeTopic(eventSubscribeTopic),
-      m_mqttClient(std::unique_ptr<MQTT>(
-          new MQTT(mqttBrokerUrl, 1883, messageReceivedCallback))) {}
+      m_mqttClient(mqttBrokerUrl, 1883, messageReceivedCallback)
+{
+}
 
 NetworkConnectionManager::~NetworkConnectionManager() {}
 
 void NetworkConnectionManager::loop() {
   m_canPublish = false;
 
-  if (!m_mqttClient->loop()) {
+  if (!m_mqttClient.loop()) {
     ensureMqttBrokerConnectivity();
   }
 
@@ -27,12 +28,12 @@ bool NetworkConnectionManager::publish(const char *topic,
                                        unsigned int plength, bool retain,
                                        MQTT::EMQTT_QOS qos) {
   if (m_canPublish) {
-    return m_mqttClient->publish(topic, payload, plength, retain, qos);
+    return m_mqttClient.publish(topic, payload, plength, retain, qos);
   }
 }
 
 void NetworkConnectionManager::ensureMqttBrokerConnectivity() {
-  if (m_mqttClient->isConnected()) {
+  if (m_mqttClient.isConnected()) {
     return;
   }
 
@@ -62,8 +63,8 @@ void NetworkConnectionManager::ensureWiFiConnectivity() {
 
 void NetworkConnectionManager::resolveMqttBrokerAddress(
     const char *mqttBrokerUrl) {
-  // Serial.print("Resolving MQTT Broker Address: ");
-  // Serial.print(mqttBrokerUrl);
+  Serial.print("Resolving MQTT Broker Address: ");
+  Serial.print(mqttBrokerUrl);
   uint8_t resolveRetryCount = 0;
   IPAddress ip;
   while (!ip) {
@@ -79,32 +80,33 @@ void NetworkConnectionManager::resolveMqttBrokerAddress(
     }
     delay(1000);
   }
-  // Serial.println("\r\nMQTT Broker Address resolved");
+  
+  Serial.println("\r\nMQTT Broker Address resolved");
 }
 
 bool NetworkConnectionManager::tryConnectToMqttBroker(uint8_t noOfRetries) {
   uint8_t noOfRetryAttepmts = 0;
 
-  while (!m_mqttClient->isConnected() && noOfRetryAttepmts < noOfRetries) {
-    // Serial.println("\r\nMQTT Client Not Connected");
+  while (!m_mqttClient.isConnected() && noOfRetryAttepmts < noOfRetries) {
+    Serial.println("\r\nMQTT Client Not Connected");
 
     byte mac[6];
     WiFi.macAddress(mac);
     char clientId[18];
     sprintf(clientId, "%02x%02x%02x%02x%02x%02x%02x", mac[0], mac[1], mac[2],
             mac[3], mac[4], mac[5], random(0xffff));
-    // Serial.print("ClientId: ");
-    // Serial.println(clientId);
+    Serial.print("ClientId: ");
+    Serial.println(clientId);
 
-    // Serial.print("Connecting to MQTT Broker: ");
-    // Serial.println(m_mqttBrokerUrl);
+    Serial.print("Connecting to MQTT Broker: ");
+    Serial.println(m_mqttBrokerUrl);
+    
+    m_mqttClient.connect(clientId);
 
-    m_mqttClient->connect(clientId);
-
-    if (m_mqttClient->isConnected()) {
-      // Serial.println("\r\nConnected to MQTT Broker");
-      m_mqttClient->subscribe(m_commandSubscribeTopic);
-      m_mqttClient->subscribe(m_eventSubscribeTopic);
+    if (m_mqttClient.isConnected()) {
+      Serial.println("\r\nConnected to MQTT Broker");
+      m_mqttClient.subscribe(m_commandSubscribeTopic);
+      m_mqttClient.subscribe(m_eventSubscribeTopic);
 
       // Serial.print("Subscribed to Command Topic: ");
       // Serial.println(m_commandSubscribeTopic);

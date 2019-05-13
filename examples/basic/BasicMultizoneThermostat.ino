@@ -1,4 +1,8 @@
+#include "Zone.h"
 #include "AvailableZones.h"
+#include "Hal.h"
+#include "TemperatureSensorBase.h"
+#include "ThermostatInfo.h"
 #include "HalSpark.h"
 #include "MultizoneThermostat.h"
 #include "MultizoneThermostatStructs.h"
@@ -65,6 +69,7 @@ MultizoneThermostat multizoneThermostat{std::unique_ptr<Hal>(new HalSpark()),
                                         fanActivationPin};
 
 void setup() {
+  Serial.begin(9600);
   temperatureSensor.begin();
 
   EepromSettings eepromSettings;

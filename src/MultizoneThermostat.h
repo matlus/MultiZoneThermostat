@@ -61,8 +61,8 @@ private:
   void turnOnFan();
   const AvailableZones *getAvailableZones() const;
   const ModeType strToMode(const char *mode) const;
-  const char *modeToString(ModeType mode) const;
-  char *getValuePart(char *str);
+  const char *modeToString(const ModeType mode) const;
+  char *getValuePart(const char *str);
   bool startsWith(const char *str, const char *pre);
 };
 

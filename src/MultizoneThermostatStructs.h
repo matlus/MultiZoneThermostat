@@ -1,5 +1,6 @@
 #ifndef MultizoneThermostatStructs_h
 #define MultizoneThermostatStructs_h
+
 #include <string.h>
 
 enum class OnOffState { Off, On };
@@ -18,6 +19,7 @@ public:
 private:
   Constants() {}
 };
+
 
 struct EepromSettings {
   EepromSettings() {}

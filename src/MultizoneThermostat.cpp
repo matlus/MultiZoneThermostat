@@ -77,7 +77,7 @@ const AvailableZones *MultizoneThermostat::getAvailableZones() const {
 const SettingsData MultizoneThermostat::processCommand(char *payload) {
   char *token = strtok(payload, m_parameterDelimiter);
 
-  // cmd=set&Z=MasterBedroom&M=Off&T=68.00
+  // cmd=set&Z=Master Bedroom&M=Off&T=68.00
   if (startsWith(token, "cmd")) {
     const char *command = getValuePart(token);
 
@@ -271,7 +271,7 @@ const ModeType MultizoneThermostat::strToMode(const char *mode) const {
   }
 }
 
-const char *MultizoneThermostat::modeToString(ModeType mode) const {
+const char *MultizoneThermostat::modeToString(const ModeType mode) const {
   switch (mode) {
   case ModeType::Off:
   default:
@@ -306,7 +306,7 @@ const PublishData MultizoneThermostat::getStatusPublishData() const noexcept {
   return PublishData{pPublishDataBuffer, bufferSize};
 }
 
-char *MultizoneThermostat::getValuePart(char *str) {
+char *MultizoneThermostat::getValuePart(const char *str) {
   char *value = strchr(str, '=');
   if (value != NULL) {
     ++value;

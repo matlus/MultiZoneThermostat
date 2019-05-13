@@ -26,7 +26,7 @@ public:
   void flashLed(uint8_t red, uint8_t green, uint8_t blue, uint8_t count);
 
 private:
-  std::unique_ptr<MQTT> m_mqttClient = nullptr;
+  MQTT m_mqttClient;
   char *m_mqttBrokerUrl = nullptr;
   const char *m_commandSubscribeTopic = nullptr;
   const char *m_eventSubscribeTopic = nullptr;
