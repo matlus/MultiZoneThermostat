@@ -2,9 +2,13 @@
 At its core, the Matlus Multi-Zone Thermostat allows you to control the temperature of specific rooms in your home. The Thermostat has a sensor of its own, but it can be set so that it controls the HVAC unit based upon the temperature of other room in your home. Essentially, you have the main unit or the “thermostat”. The code in this repo is for the main unit. This main unit has a temperature sensor. In addition, you can have ancillary units (microcontrollers with just temperature sensors) in other rooms (zones) in your home that you’d like the thermostat to use as “input” and control the HVAC unit based on the temperature in any one of the other zones. An MQTT broker is the central communication hub. All devices communicate via this MQTT broker. The MQTT broker could be local to your home network on one that is on the Internet.
 
 ### Overview
-For an overview of What and How about this Thermostat, please take a look at this video on YouTube.
+For an overview of What and How about this Thermostat, please take a look at these videos on YouTube.
 
-[![Alexa Demystified - Explaining the Flow with an IoT Thermostat](http://img.youtube.com/vi/ITUisKjxcCc/0.jpg)](https://youtu.be/ITUisKjxcCc)
+#### Alexa Demystified - Explaining the Flow with an IoT Thermostat
+[![YoueTube Video -Alexa Demystified - Explaining the Flow with an IoT Thermostat](http://img.youtube.com/vi/rwVX2BN2n0I/0.jpg)](http://www.youtube.com/watch?v=rwVX2BN2n0I)
+
+#### IoT Multi-Zone Thermostat - Alexa Skill Demonstration
+[![YoueTube Video -IoT Multi-Zone Thermostat - Alexa Skill Demonstration](http://img.youtube.com/vi/ITUisKjxcCc/0.jpg)](http://www.youtube.com/watch?v=ITUisKjxcCc)
 
 ### MultizoneThermostatMain.ino
 This is the main file/class that has the setup and loop functions. This file also includes some of the classes from the Matlus Multi-Zone Thermostat library. There are settings you need to change in this file prior to flashing your microcontroller.
